@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Илья Хазан](https://up.htmlacademy.ru/javascript/22/user/1531801).
-* Наставник: `Неизвестно`.
+* Наставник: [Алексей Хабиров](https://up.htmlacademy.ru/javascript/22/user/963185).
 
 ---
 
