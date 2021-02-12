@@ -1,4 +1,73 @@
+const Author = {
+  MIN: 1,
+  MAX: 8,
+}
+
+const Price = {
+  MIN: 0,
+  MAX: 1000000,
+}
+
+const Guests = {
+  MIN: 1,
+  MAX: 100,
+}
+
+const Rooms = {
+  MIN: 1,
+  MAX: 100,
+}
+
+const Location = {
+  X: {
+    MIN: 35.65000,
+    MAX: 35.70000,
+  },
+
+  Y: {
+    MIN: 139.70000,
+    MAX: 139.80000,
+  },
+}
+
+const TYPES = [
+  'palace',
+  'flat',
+  'house',
+  'bungalow',
+];
+
+const CHECKINS = [
+  '12:00',
+  '13:00',
+  '14:00',
+];
+
+const CHECKOUTS = [
+  '12:00',
+  '13:00',
+  '14:00',
+];
+
+const FEATURES = [
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner',
+];
+
+const PHOTOS = [
+  'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
+];
+
+const SIMILAR_ITEM_COUNT = 10;
+
 const getRandomInt = (min, max) => {
+
   if (min >= 0 && max > min) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -11,6 +80,7 @@ const getRandomInt = (min, max) => {
 
 
 const getRandomFloat = (min, max, decimals = 5) => {
+
   if (min >= 0 && max > min) {
     return parseFloat((Math.random() * (max - min) + min).toFixed(decimals));
   }
@@ -23,67 +93,38 @@ const getRandomArrayElement = (elements) => {
 };
 
 const shuffleArray = (array) => {
-  array.sort(() => Math.random() - 0.5);
 
-  return array;
-}
+  const newArray = array.slice();
 
-const getUniqRandomLengthArray = (array) => {
-  shuffleArray(array);
-  const newArray = array.slice(getRandomInt(0, array.length - 1));
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
 
   return newArray;
 }
 
-const AUTHOR = {
-  MIN: 1,
-  MAX: 8,
-}
-const PRICE = {
-  MIN: 0,
-  MAX: 1000000,
-}
-const GUESTS = {
-  MIN: 1,
-  MAX: 100,
-}
-const ROOMS = {
-  MIN: 1,
-  MAX: 100,
-}
-const LOCATIONX = {
-  MIN: 35.65000,
-  MAX: 35.70000,
-}
-const LOCATIONY = {
-  MIN: 139.70000,
-  MAX: 139.80000,
-}
-const TYPES = ['palace', 'flat', 'house', 'bungalow'];
-const CHECKINS = ['12:00', '13:00', '14:00'];
-const CHECKOUTS = ['12:00', '13:00', '14:00'];
-const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-const PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-const SIMILAR_ITEM_COUNT = 10;
+const getUniqRandomLengthArray = (array) => {
+  shuffleArray(array);
 
-
+  return array.slice(getRandomInt(0, array.length - 1));
+}
 
 const createItem = () => {
-  const LATITUDE = getRandomFloat(LOCATIONX.MIN, LOCATIONX.MAX);
-  const LONGITUDE = getRandomFloat(LOCATIONY.MIN, LOCATIONY.MAX);
-  const ADDRESS = LATITUDE + ', ' + LONGITUDE;
+  const latitude = getRandomFloat(Location.X.MIN, Location.X.MAX);
+  const longitude = getRandomFloat(Location.Y.MIN, Location.Y.MAX);
 
   return {
-    author: {
-      avatar: 'img/avatars/user0' + getRandomInt(AUTHOR.MIN, AUTHOR.MAX) + '.png',
+    Author: {
+      avatar: `'img/avatars/user0${getRandomInt(Author.MIN, Author.MAX)}.png'`,
     },
     offer: {
       title: 'Специальное предложение!',
-      address: ADDRESS,
-      price: getRandomInt(PRICE.MIN, PRICE.MAX),
+      address: `${latitude}, ${longitude}`,
+      Price: getRandomInt(Price.MIN, Price.MAX),
       type: getRandomArrayElement(TYPES),
-      rooms: getRandomInt(ROOMS.MIN, ROOMS.MAX),
-      guests: getRandomInt(GUESTS.MIN, GUESTS.MAX),
+      Rooms: getRandomInt(Rooms.MIN, Rooms.MAX),
+      Guests: getRandomInt(Guests.MIN, Guests.MAX),
       checkin: getRandomArrayElement(CHECKINS),
       checkout: getRandomArrayElement(CHECKOUTS),
       features: getUniqRandomLengthArray(FEATURES),
@@ -91,12 +132,10 @@ const createItem = () => {
       photos: getUniqRandomLengthArray(PHOTOS),
     },
     location: {
-      x: LATITUDE,
-      y: LONGITUDE,
+      x: latitude,
+      y: longitude,
     },
   }
 };
 
 const similarItems = new Array(SIMILAR_ITEM_COUNT).fill(null).map(() => createItem());
-
-similarItems;
