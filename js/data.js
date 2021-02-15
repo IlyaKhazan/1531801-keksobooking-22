@@ -1,3 +1,11 @@
+import {
+  getRandomInt,
+  getRandomFloat,
+  getRandomArrayElement,
+  getUniqRandomLengthArray
+}
+  from './util.js'
+
 const Author = {
   MIN: 1,
   MAX: 8,
@@ -66,4 +74,36 @@ const PHOTOS = [
 
 const SIMILAR_ITEM_COUNT = 10;
 
-export { Author, Price, Guests, Rooms, Location, TYPES, CHECKINS, CHECKOUTS, FEATURES, PHOTOS, SIMILAR_ITEM_COUNT };
+const createItem = () => {
+  const latitude = getRandomFloat(Location.X.MIN, Location.X.MAX);
+  const longitude = getRandomFloat(Location.Y.MIN, Location.Y.MAX);
+
+  return {
+    Author: {
+      avatar: `'img/avatars/user0${getRandomInt(Author.MIN, Author.MAX)}.png'`,
+    },
+    offer: {
+      title: 'Специальное предложение!',
+      address: `${latitude}, ${longitude}`,
+      Price: getRandomInt(Price.MIN, Price.MAX),
+      type: getRandomArrayElement(TYPES),
+      Rooms: getRandomInt(Rooms.MIN, Rooms.MAX),
+      Guests: getRandomInt(Guests.MIN, Guests.MAX),
+      checkin: getRandomArrayElement(CHECKINS),
+      checkout: getRandomArrayElement(CHECKOUTS),
+      features: getUniqRandomLengthArray(FEATURES),
+      description: 'Отличный выбор для семьи из трёх человек',
+      photos: getUniqRandomLengthArray(PHOTOS),
+    },
+    location: {
+      x: latitude,
+      y: longitude,
+    },
+  }
+};
+
+const createData = () => {
+  return new Array(SIMILAR_ITEM_COUNT).fill(null).map(() => createItem());
+}
+
+export { createData }

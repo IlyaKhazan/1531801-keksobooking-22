@@ -1,1 +1,1 @@
-import './util.js';
+import { createData } from './data.js';
