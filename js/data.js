@@ -38,6 +38,13 @@ const Location = {
   },
 }
 
+const typeTranslates = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalow: 'Бунгало',
+}
+
 const TYPES = [
   'palace',
   'flat',
@@ -79,8 +86,8 @@ const createItem = () => {
   const longitude = getRandomFloat(Location.Y.MIN, Location.Y.MAX);
 
   return {
-    Author: {
-      avatar: `'img/avatars/user0${getRandomInt(Author.MIN, Author.MAX)}.png'`,
+    author: {
+      avatar: `img/avatars/user0${getRandomInt(Author.MIN, Author.MAX)}.png`,
     },
     offer: {
       title: 'Специальное предложение!',
@@ -106,4 +113,4 @@ const createData = () => {
   return new Array(SIMILAR_ITEM_COUNT).fill(null).map(() => createItem());
 }
 
-export { createData }
+export { createData, typeTranslates }
