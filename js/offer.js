@@ -42,5 +42,3 @@ const itemElements = similarData.map(({ offer, author }) => {
 });
 
 listElement.appendChild(itemElements[1])
-
-
