@@ -92,10 +92,10 @@ const createItem = () => {
     offer: {
       title: 'Специальное предложение!',
       address: `${latitude}, ${longitude}`,
-      Price: getRandomInt(Price.MIN, Price.MAX),
+      price: getRandomInt(Price.MIN, Price.MAX),
       type: getRandomArrayElement(TYPES),
-      Rooms: getRandomInt(Rooms.MIN, Rooms.MAX),
-      Guests: getRandomInt(Guests.MIN, Guests.MAX),
+      rooms: getRandomInt(Rooms.MIN, Rooms.MAX),
+      guests: getRandomInt(Guests.MIN, Guests.MAX),
       checkin: getRandomArrayElement(CHECKINS),
       checkout: getRandomArrayElement(CHECKOUTS),
       features: getUniqRandomLengthArray(FEATURES),
