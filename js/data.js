@@ -38,6 +38,13 @@ const Location = {
   },
 }
 
+const typeTranslates = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalow: 'Бунгало',
+}
+
 const TYPES = [
   'palace',
   'flat',
@@ -79,16 +86,16 @@ const createItem = () => {
   const longitude = getRandomFloat(Location.Y.MIN, Location.Y.MAX);
 
   return {
-    Author: {
-      avatar: `'img/avatars/user0${getRandomInt(Author.MIN, Author.MAX)}.png'`,
+    author: {
+      avatar: `img/avatars/user0${getRandomInt(Author.MIN, Author.MAX)}.png`,
     },
     offer: {
       title: 'Специальное предложение!',
       address: `${latitude}, ${longitude}`,
-      Price: getRandomInt(Price.MIN, Price.MAX),
+      price: getRandomInt(Price.MIN, Price.MAX),
       type: getRandomArrayElement(TYPES),
-      Rooms: getRandomInt(Rooms.MIN, Rooms.MAX),
-      Guests: getRandomInt(Guests.MIN, Guests.MAX),
+      rooms: getRandomInt(Rooms.MIN, Rooms.MAX),
+      guests: getRandomInt(Guests.MIN, Guests.MAX),
       checkin: getRandomArrayElement(CHECKINS),
       checkout: getRandomArrayElement(CHECKOUTS),
       features: getUniqRandomLengthArray(FEATURES),
@@ -106,4 +113,4 @@ const createData = () => {
   return new Array(SIMILAR_ITEM_COUNT).fill(null).map(() => createItem());
 }
 
-export { createData }
+export { createData, typeTranslates }

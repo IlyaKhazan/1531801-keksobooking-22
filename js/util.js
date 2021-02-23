@@ -41,9 +41,12 @@ const getUniqRandomLengthArray = (array) => {
   return array.slice(getRandomInt(0, array.length - 1));
 }
 
+const setDeclination = (number, txt, cases = [2, 0, 1, 1, 1, 2]) => txt[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
+
 export {
   getRandomInt,
   getRandomFloat,
   getRandomArrayElement,
-  getUniqRandomLengthArray
+  getUniqRandomLengthArray,
+  setDeclination
 }
