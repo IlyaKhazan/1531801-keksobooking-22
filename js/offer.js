@@ -1,7 +1,6 @@
 import { createData, typeTranslates } from './data.js';
 import { setDeclination } from './util.js';
 
-const map = document.querySelector('.map__canvas');
 const popupTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 const renderPhotosData = (photos, clone) => {
@@ -47,4 +46,5 @@ const createOffer = ({ offer, author }) => {
 
 const similarData = createData();
 const singleOffer = createOffer(similarData[0]);
-map.appendChild(singleOffer);
+
+export { similarData, createOffer };
