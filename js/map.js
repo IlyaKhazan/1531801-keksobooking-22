@@ -1,40 +1,56 @@
 /* global L:readonly */
 import { similarData, createOffer } from './offer.js';
+import { activatePage, deactivatePage } from './form.js';
 
-const form = document.querySelector('.ad-form');
-const formAllFieldsets = form.querySelectorAll('fieldset');
-const filters = document.querySelector('.map__filters');
-const filtersAllSelects = filters.querySelectorAll('select');
+const LAYER_LINK = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+const LAYER_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>';
+const DECIMALS = 5;
+const DEFAULT_ZOOM = 10;
+
+const DefaultCoordinates = {
+  LATITUDE: 35.68310,
+  LONGITUDE: 139.75983,
+}
+
+const PinSize = {
+  WIDTH: 52,
+  HEIGHT: 52,
+}
+
 const address = document.querySelector('#address');
-const layerLink = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-const layerAttribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>';
-const deafaultLatitude = 35.68955;
-const defaultLongitude = 139.69171;
-const defaultZoom = 10;
 
-const toggleElements = (element, boolean) => {
-
-  element.forEach((item) => {
-    item.disabled = boolean;
-  },
-  )
+const onMarkerDrag = (evt) => {
+  const { lat, lng } = evt.target.getLatLng();
+  address.value = `${lat.toFixed(DECIMALS)}, ${lng.toFixed(DECIMALS)}`;
 }
 
-const deactivatePage = () => {
-  form.classList.add('ad-form--disabled');
-  toggleElements(formAllFieldsets, true);
-  filters.classList.add('map__filters--disabled');
-  toggleElements(filtersAllSelects, true);
-  filters.querySelector('fieldset').disabled = true;
-}
+const renderMarkers = (data) => {
+  data.forEach((offer) => {
+    const lat = offer.location.x;
+    const lng = offer.location.y;
 
-const activatePage = () => {
-  form.classList.remove('ad-form--disabled');
-  toggleElements(formAllFieldsets, false);
-  filters.classList.remove('map__filters--disabled');
-  toggleElements(filtersAllSelects, false);
-  filters.querySelector('fieldset').disabled = false;
-};
+    const pinIcon = L.icon({
+      iconUrl: '../img/pin.svg',
+      iconSize: [`${PinSize.WIDTH}`, `${PinSize.HEIGHT}`],
+      iconAnchor: [`${PinSize.WIDTH / 2}`, `${PinSize.HEIGHT}`],
+    });
+
+    const pinMarker = L.marker({
+      lat,
+      lng,
+    },
+    {
+      icon: pinIcon,
+    },
+    );
+
+    pinMarker.addTo(map);
+    pinMarker.bindPopup(createOffer(offer),
+      {
+        keepInView: true,
+      })
+  })
+}
 
 deactivatePage();
 
@@ -43,53 +59,27 @@ const map = L.map('map-canvas')
     activatePage();
   })
   .setView({
-    lat: deafaultLatitude,
-    lng: defaultLongitude,
-  }, defaultZoom);
+    lat: DefaultCoordinates.LATITUDE,
+    lng: DefaultCoordinates.LONGITUDE,
+  }, DEFAULT_ZOOM);
 
 L.tileLayer(
-  `${layerLink}`,
+  `${LAYER_LINK}`,
   {
-    attribution: `${layerAttribution}`,
+    attribution: `${LAYER_ATTRIBUTION}`,
   },
 ).addTo(map);
 
-similarData.forEach((offer) => {
-  const lat = offer.location.x;
-  const lng = offer.location.y;
-
-  const pinIcon = L.icon({
-    iconUrl: '../img/pin.svg',
-    iconSize: [22, 22],
-    iconAnchor: [11, 22],
-  });
-
-  const pinMarker = L.marker({
-    lat,
-    lng,
-  },
-  {
-    icon: pinIcon,
-  },
-  );
-
-  pinMarker.addTo(map);
-  pinMarker.bindPopup(createOffer(offer),
-    {
-      keepInView: true,
-    })
-})
-
 const mainPinIcon = L.icon({
   iconUrl: '../img/main-pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: [`${PinSize.WIDTH}`, `${PinSize.HEIGHT}`],
+  iconAnchor: [`${PinSize.WIDTH / 2}`, `${PinSize.HEIGHT}`],
 });
 
 const mainPinMarker = L.marker(
   {
-    lat: deafaultLatitude,
-    lng: defaultLongitude,
+    lat: DefaultCoordinates.LATITUDE,
+    lng: DefaultCoordinates.LONGITUDE,
   },
   {
     draggable: true,
@@ -97,8 +87,9 @@ const mainPinMarker = L.marker(
   },
 );
 
+renderMarkers(similarData);
+
+address.value = `${DefaultCoordinates.LATITUDE}, ${DefaultCoordinates.LONGITUDE} `;
+
 mainPinMarker.addTo(map);
-address.value = `${mainPinMarker.getLatLng().lat.toFixed(5)}, ${mainPinMarker.getLatLng().lng.toFixed(5)}`;
-mainPinMarker.on('moveend', (evt) => {
-  address.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
-});
+mainPinMarker.on('drag', onMarkerDrag);
