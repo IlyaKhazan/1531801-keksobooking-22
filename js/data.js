@@ -45,6 +45,13 @@ const typeTranslates = {
   bungalow: 'Бунгало',
 }
 
+const roomCapacity = {
+  100: '<option value="0">не для гостей</option>',
+  1: '<option value="1">для 1 гостя</option>',
+  2: '<option value="2">для 2 гостей</option> <option value="1"> для 1 гостя</option>',
+  3: '<option value="3">для 3 гостей</option> <option value="2">для 2 гостей</option> <option value="1">для 1 гостя</option>',
+}
+
 const typeMinCosts = {
   palace: 10000,
   flat: 1000,
@@ -120,4 +127,4 @@ const createData = () => {
   return new Array(SIMILAR_ITEM_COUNT).fill(null).map(() => createItem());
 }
 
-export { createData, typeTranslates, typeMinCosts }
+export { createData, typeTranslates, typeMinCosts, roomCapacity }
