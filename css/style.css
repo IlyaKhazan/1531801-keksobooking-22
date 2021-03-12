@@ -943,10 +943,20 @@ fieldset {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
+.error__get {
+  padding-top: 600px;
+}
+
 .success__message,
 .error__message {
   position: relative;
 
+  color: #ffffff;
+  font-size: 50px;
+  font-weight: 700;
+}
+
+.error__message-get {
   color: #ffffff;
   font-size: 50px;
   font-weight: 700;
@@ -975,6 +985,8 @@ fieldset {
 .error__message::before {
   background-image: url("../img/muffin-red.svg");
 }
+
+
 
 .error__button {
   padding: 10px;

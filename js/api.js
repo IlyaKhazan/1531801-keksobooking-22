@@ -1,14 +1,28 @@
+import { openErrorGetPopup } from './popup.js';
+
+
+const API_URL = 'https://22.javascript.pages.academy/keksobooking';
+
 const getData = (onSuccess) => {
-  fetch('https://22.javascript.pages.academy/keksobooking/data')
-    .then((response) => response.json())
-    .then((data) => {
-      onSuccess(data);
+  fetch(`${API_URL}/data`)
+    .then((response) => {
+      if (response.ok) {
+        response.json()
+          .then((data) => {
+            onSuccess(data);
+          });
+      } else {
+        openErrorGetPopup();
+      }
+    })
+    .catch(() => {
+      openErrorGetPopup();
     });
-};
+}
 
 const sendData = (onSuccess, onFail, body) => {
   fetch(
-    'https://22.javascript.pages.academy/keksobooking',
+    API_URL,
     {
       method: 'POST',
       body,
@@ -26,4 +40,4 @@ const sendData = (onSuccess, onFail, body) => {
     });
 };
 
-export {getData, sendData};
+export { getData, sendData };

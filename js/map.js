@@ -24,6 +24,11 @@ const onMarkerDrag = (evt) => {
   address.value = `${lat.toFixed(DECIMALS)}, ${lng.toFixed(DECIMALS)}`;
 }
 
+const setLatLngDefault = () => {
+  mainPinMarker.setLatLng([DefaultCoordinates.LATITUDE, DefaultCoordinates.LONGITUDE]);
+  address.value = `${DefaultCoordinates.LATITUDE}, ${DefaultCoordinates.LONGITUDE} `;
+}
+
 const renderMarkers = (data) => {
   data.forEach((offer) => {
     const lat = offer.location.lat;
@@ -92,9 +97,6 @@ address.value = `${DefaultCoordinates.LATITUDE}, ${DefaultCoordinates.LONGITUDE}
 mainPinMarker.addTo(map);
 mainPinMarker.on('drag', onMarkerDrag);
 
-const setLatLngDefault = () => {
-  mainPinMarker.setLatLng([DefaultCoordinates.LATITUDE, DefaultCoordinates.LONGITUDE]).update();
-  address.value = `${DefaultCoordinates.LATITUDE}, ${DefaultCoordinates.LONGITUDE} `;
-}
 
-export { renderMarkers, setLatLngDefault };
+
+export { setLatLngDefault, renderMarkers };

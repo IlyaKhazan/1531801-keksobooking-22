@@ -1,5 +1,4 @@
-//import { setLatLngDefault } from './map.js';
-import { isEscEvent } from './util.js';
+import { openErrorSendPopup } from './popup.js';
 import { sendData } from './api.js';
 
 const form = document.querySelector('.ad-form');
@@ -91,51 +90,15 @@ resetButton.addEventListener('click', (evt) => {
   formReset();
 });
 
-const openErrorPopup = () => {
-  const errorPopup = document.querySelector('#error').content.cloneNode(true);
-
-  document.querySelector('main').appendChild(errorPopup);
-  document.addEventListener('keydown', onPopupEscKeydown);
-  document.querySelector('.error').addEventListener('click', closeErrorPopup);
-}
-
-const closeErrorPopup = () => {
-  document.querySelector('.error').remove();
-  document.removeEventListener('keydown', onPopupEscKeydown);
-};
-
-const onPopupEscKeydown = (evt) => {
-  if (isEscEvent(evt)) {
-    evt.preventDefault();
-    //closeFormPopup();
-    closeErrorPopup();
-  }
-};
-
-const openFormPopup = () => {
-  const successPopup = document.querySelector('#success').content.cloneNode(true);
-
-  document.querySelector('main').appendChild(successPopup);
-  document.addEventListener('keydown', onPopupEscKeydown);
-  document.querySelector('.success').addEventListener('click', closeFormPopup);
-};
-
-const closeFormPopup = () => {
-  document.querySelector('.success').remove();
-  formReset();
-  //setMainPinMarkerDefault;
-  document.removeEventListener('keydown', onPopupEscKeydown);
-};
-
 const setFormSubmit = (onSuccess) => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
     sendData(
       () => onSuccess(),
-      () => openErrorPopup(),
+      () => openErrorSendPopup(),
       new FormData(evt.target),
     );
   });
 };
 
-export { activatePage, deactivatePage, setFormSubmit, openFormPopup }
+export { activatePage, deactivatePage, setFormSubmit, formReset }
