@@ -1,5 +1,4 @@
-import { openErrorGetPopup } from './popup.js';
-
+import { showErrorGetPopup } from './popup.js';
 
 const API_URL = 'https://22.javascript.pages.academy/keksobooking';
 
@@ -12,11 +11,11 @@ const getData = (onSuccess) => {
             onSuccess(data);
           });
       } else {
-        openErrorGetPopup();
+        showErrorGetPopup();
       }
     })
     .catch(() => {
-      openErrorGetPopup();
+      showErrorGetPopup();
     });
 }
 

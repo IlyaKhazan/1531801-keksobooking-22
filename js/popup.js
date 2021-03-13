@@ -1,53 +1,47 @@
 import { isEscEvent } from './util.js';
-import { formReset } from './form.js';
-import { setLatLngDefault } from './main.js';
 
-const successPopup = document.querySelector('#success').content.cloneNode(true);
-const errorSendPopup = document.querySelector('#error').content.cloneNode(true);
-const errorGetPopup = document.querySelector('#error-get').content.cloneNode(true);
+const successPopup = document.querySelector('#success').content.querySelector('.success');
+const errorSendPopup = document.querySelector('#error').content.querySelector('.error');
+const errorGetPopup = document.querySelector('#error-get').content.querySelector('.error__get');
 const main = document.querySelector('main');
 
-const openErrorGetPopup = () => {
-  main.appendChild(errorGetPopup);
-  document.addEventListener('keydown', onPopupEscKeydown);
-  document.querySelector('.error').addEventListener('click', closeErrorGetPopup);
-}
-
-const closeErrorGetPopup = () => {
-  document.querySelector('.error').remove();
-  document.removeEventListener('keydown', onPopupEscKeydown);
-};
-
-const openErrorSendPopup = () => {
-  main.appendChild(errorSendPopup);
-  document.addEventListener('keydown', onPopupEscKeydown);
-  document.querySelector('.error').addEventListener('click', closeErrorSendPopup);
-}
-
-const closeErrorSendPopup = () => {
-  document.querySelector('.error').remove();
-  document.removeEventListener('keydown', onPopupEscKeydown);
-};
-
-const onPopupEscKeydown = (evt) => {
-  if (isEscEvent(evt)) {
-    evt.preventDefault();
-    //closeFormPopup();
-    closeErrorSendPopup();
+const showPopup = (element) => {
+  const closePopup = () => {
+    element.remove();
+    document.removeEventListener('keydown', onDocumentKeyDown);
   }
-};
 
-const openSuccessPopup = () => {
-  main.appendChild(successPopup);
-  document.addEventListener('keydown', onPopupEscKeydown);
-  document.querySelector('.success').addEventListener('click', closeSuccessPopup);
-};
+  const onElementClick = () => closePopup();
 
-const closeSuccessPopup = () => {
-  document.querySelector('.success').remove();
-  formReset();
-  document.removeEventListener('keydown', onPopupEscKeydown);
-  setLatLngDefault();
-};
+  const onDocumentKeyDown = (evt) => {
+    if (isEscEvent(evt)) {
+      closePopup();
+    }
+  }
 
-export { openErrorSendPopup, openErrorGetPopup, onPopupEscKeydown, openSuccessPopup, closeSuccessPopup };
+  element.addEventListener('click', onElementClick);
+  document.addEventListener('keydown', onDocumentKeyDown);
+
+  main.appendChild(element);
+}
+
+const showSuccessPopup = () => {
+  const successPopupModal = successPopup.cloneNode(true);
+  showPopup(successPopupModal);
+}
+
+const showErrorSendPopup = () => {
+  const errorSendPopupModal = errorSendPopup.cloneNode(true);
+  showPopup(errorSendPopupModal);
+}
+
+const showErrorGetPopup = () => {
+  const errorGetPopupModal = errorGetPopup.cloneNode(true);
+  showPopup(errorGetPopupModal);
+}
+
+export {
+  showSuccessPopup,
+  showErrorSendPopup,
+  showErrorGetPopup
+};

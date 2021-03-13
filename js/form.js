@@ -1,4 +1,5 @@
-import { openErrorSendPopup } from './popup.js';
+import { showErrorSendPopup, showSuccessPopup } from './popup.js';
+import { setLatLngDefault } from './main.js';
 import { sendData } from './api.js';
 
 const form = document.querySelector('.ad-form');
@@ -83,6 +84,7 @@ const formReset = () => {
   form.reset();
   filters.reset();
   capacity.innerHTML = roomCapacity[roomNumber.value];
+  setLatLngDefault();
 }
 
 resetButton.addEventListener('click', (evt) => {
@@ -90,15 +92,28 @@ resetButton.addEventListener('click', (evt) => {
   formReset();
 });
 
-const setFormSubmit = (onSuccess) => {
+const onSuccessSend = () => {
+  showSuccessPopup();
+  formReset();
+}
+
+const onFailSend = () => {
+  showErrorSendPopup();
+}
+
+const setFormSubmit = () => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
     sendData(
-      () => onSuccess(),
-      () => openErrorSendPopup(),
+      onSuccessSend,
+      onFailSend,
       new FormData(evt.target),
     );
   });
 };
 
-export { activatePage, deactivatePage, setFormSubmit, formReset }
+export {
+  activatePage,
+  deactivatePage,
+  setFormSubmit
+}

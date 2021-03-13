@@ -27,6 +27,8 @@ const onMarkerDrag = (evt) => {
 const setLatLngDefault = () => {
   mainPinMarker.setLatLng([DefaultCoordinates.LATITUDE, DefaultCoordinates.LONGITUDE]);
   address.value = `${DefaultCoordinates.LATITUDE}, ${DefaultCoordinates.LONGITUDE} `;
+  map.setView(new L.LatLng(DefaultCoordinates.LATITUDE,
+    DefaultCoordinates.LONGITUDE), DEFAULT_ZOOM);
 }
 
 const renderMarkers = (data) => {
@@ -96,7 +98,5 @@ address.value = `${DefaultCoordinates.LATITUDE}, ${DefaultCoordinates.LONGITUDE}
 
 mainPinMarker.addTo(map);
 mainPinMarker.on('drag', onMarkerDrag);
-
-
 
 export { setLatLngDefault, renderMarkers };
