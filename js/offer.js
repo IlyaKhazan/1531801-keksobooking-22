@@ -1,7 +1,13 @@
-import { createData, typeTranslates } from './data.js';
 import { setDeclination } from './util.js';
 
 const popupTemplate = document.querySelector('#card').content.querySelector('.popup');
+
+const typeTranslates = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalow: 'Бунгало',
+}
 
 const renderPhotosData = (photos, clone) => {
   const photoNode = clone.querySelector('.popup__photo');
@@ -44,7 +50,4 @@ const createOffer = ({ offer, author }) => {
   return popupElement;
 };
 
-const similarData = createData();
-const singleOffer = createOffer(similarData[0]);
-
-export { similarData, createOffer };
+export { createOffer };

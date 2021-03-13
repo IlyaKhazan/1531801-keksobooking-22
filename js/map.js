@@ -1,5 +1,5 @@
 /* global L:readonly */
-import { similarData, createOffer } from './offer.js';
+import { createOffer } from './offer.js';
 import { activatePage, deactivatePage } from './form.js';
 
 const LAYER_LINK = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -24,10 +24,17 @@ const onMarkerDrag = (evt) => {
   address.value = `${lat.toFixed(DECIMALS)}, ${lng.toFixed(DECIMALS)}`;
 }
 
+const setLatLngDefault = () => {
+  mainPinMarker.setLatLng([DefaultCoordinates.LATITUDE, DefaultCoordinates.LONGITUDE]);
+  address.value = `${DefaultCoordinates.LATITUDE}, ${DefaultCoordinates.LONGITUDE} `;
+  map.setView(new L.LatLng(DefaultCoordinates.LATITUDE,
+    DefaultCoordinates.LONGITUDE), DEFAULT_ZOOM);
+}
+
 const renderMarkers = (data) => {
   data.forEach((offer) => {
-    const lat = offer.location.x;
-    const lng = offer.location.y;
+    const lat = offer.location.lat;
+    const lng = offer.location.lng;
 
     const pinIcon = L.icon({
       iconUrl: '../img/pin.svg',
@@ -87,9 +94,9 @@ const mainPinMarker = L.marker(
   },
 );
 
-renderMarkers(similarData);
-
 address.value = `${DefaultCoordinates.LATITUDE}, ${DefaultCoordinates.LONGITUDE} `;
 
 mainPinMarker.addTo(map);
 mainPinMarker.on('drag', onMarkerDrag);
+
+export { setLatLngDefault, renderMarkers };

@@ -1,4 +1,6 @@
-import { typeMinCosts, roomCapacity } from './data.js';
+import { showErrorSendPopup, showSuccessPopup } from './popup.js';
+import { setLatLngDefault } from './main.js';
+import { sendData } from './api.js';
 
 const form = document.querySelector('.ad-form');
 const filters = document.querySelector('.map__filters');
@@ -13,8 +15,21 @@ const checkIn = form.querySelector('#timein');
 const checkOut = form.querySelector('#timeout');
 const checkInOutGroup = form.querySelector('.ad-form__element--time');
 
+const typeMinCosts = {
+  palace: 10000,
+  flat: 1000,
+  house: 5000,
+  bungalow: 0,
+}
+
 const roomNumber = form.querySelector('#room_number');
 const capacity = form.querySelector('#capacity');
+const roomCapacity = {
+  100: '<option value="0">не для гостей</option>',
+  1: '<option value="1">для 1 гостя</option>',
+  2: '<option value="2">для 2 гостей</option> <option value="1"> для 1 гостя</option>',
+  3: '<option value="3">для 3 гостей</option> <option value="2">для 2 гостей</option> <option value="1">для 1 гостя</option>',
+}
 
 const toggleElements = (elements, state) => {
   elements.forEach((item) => item.disabled = state);
@@ -63,4 +78,42 @@ price.addEventListener('input', () => {
 typePriceFilterChange();
 roomCapacityFilterChange();
 
-export { activatePage, deactivatePage }
+const resetButton = document.querySelector('.ad-form__reset');
+
+const formReset = () => {
+  form.reset();
+  filters.reset();
+  capacity.innerHTML = roomCapacity[roomNumber.value];
+  setLatLngDefault();
+}
+
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  formReset();
+});
+
+const onSuccessSend = () => {
+  showSuccessPopup();
+  formReset();
+}
+
+const onFailSend = () => {
+  showErrorSendPopup();
+}
+
+const setFormSubmit = () => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    sendData(
+      onSuccessSend,
+      onFailSend,
+      new FormData(evt.target),
+    );
+  });
+};
+
+export {
+  activatePage,
+  deactivatePage,
+  setFormSubmit
+}
