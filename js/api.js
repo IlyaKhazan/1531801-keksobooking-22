@@ -1,22 +1,14 @@
-import { showErrorGetPopup } from './popup.js';
-
 const API_URL = 'https://22.javascript.pages.academy/keksobooking';
 
-const getData = (onSuccess) => {
+const getData = (onSuccess, onFail) => {
   fetch(`${API_URL}/data`)
-    .then((response) => {
-      if (response.ok) {
-        response.json()
-          .then((data) => {
-            onSuccess(data);
-          });
-      } else {
-        showErrorGetPopup();
-      }
-    })
-    .catch(() => {
-      showErrorGetPopup();
-    });
+    .then((response) => response.json()
+      .then((data) => {
+        onSuccess(data);
+      })
+      .catch(() => {
+        onFail();
+      }));
 }
 
 const sendData = (onSuccess, onFail, body) => {
