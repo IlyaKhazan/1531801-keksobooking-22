@@ -30,6 +30,22 @@ const setLatLngDefault = () => {
   map.setView(new L.LatLng(DefaultCoordinates.LATITUDE,
     DefaultCoordinates.LONGITUDE), DEFAULT_ZOOM);
 }
+deactivatePage();
+
+const map = L.map('map-canvas')
+  .on('load', () => {
+    activatePage();
+  })
+  .setView({
+    lat: DefaultCoordinates.LATITUDE,
+    lng: DefaultCoordinates.LONGITUDE,
+  }, DEFAULT_ZOOM);
+
+const markers = L.layerGroup().addTo(map);
+
+const clearMarkers = () => {
+  markers.clearLayers();
+}
 
 const renderMarkers = (data) => {
   data.forEach((offer) => {
@@ -51,24 +67,13 @@ const renderMarkers = (data) => {
     },
     );
 
-    pinMarker.addTo(map);
+    pinMarker.addTo(markers);
     pinMarker.bindPopup(createOffer(offer),
       {
         keepInView: true,
-      })
+      });
   })
 }
-
-deactivatePage();
-
-const map = L.map('map-canvas')
-  .on('load', () => {
-    activatePage();
-  })
-  .setView({
-    lat: DefaultCoordinates.LATITUDE,
-    lng: DefaultCoordinates.LONGITUDE,
-  }, DEFAULT_ZOOM);
 
 L.tileLayer(
   `${LAYER_LINK}`,
@@ -99,4 +104,4 @@ address.value = `${DefaultCoordinates.LATITUDE}, ${DefaultCoordinates.LONGITUDE}
 mainPinMarker.addTo(map);
 mainPinMarker.on('drag', onMarkerDrag);
 
-export { setLatLngDefault, renderMarkers };
+export { setLatLngDefault, renderMarkers, clearMarkers };
