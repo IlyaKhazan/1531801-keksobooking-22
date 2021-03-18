@@ -47,11 +47,21 @@ const isEscEvent = (evt) => {
   return evt.key === 'Escape' || evt.key === 'Esc';
 };
 
+const debounce = (callback) => {
+  let timeout;
+
+  return (argument) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => callback(argument), 500);
+  };
+};
+
 export {
   getRandomInt,
   getRandomFloat,
   getRandomArrayElement,
   getUniqRandomLengthArray,
   setDeclination,
-  isEscEvent
+  isEscEvent,
+  debounce
 }
