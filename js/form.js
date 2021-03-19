@@ -115,5 +115,6 @@ const setFormSubmit = () => {
 export {
   activatePage,
   deactivatePage,
-  setFormSubmit
+  setFormSubmit,
+  filters
 }
