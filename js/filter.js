@@ -62,21 +62,30 @@ const compareValues = (element) => {
 }
 
 const filterOffers = (data) => {
-  return data
-    .filter(compareValues).slice(0, SIMILAR_OFFERS_COUNT);
+  let offers = [];
+
+  for (let i = 0; i < data.length; i++) {
+    if (compareValues(data[i])) {
+      offers.push(data[i]);
+    }
+    if (offers.length >= SIMILAR_OFFERS_COUNT) { return offers; }
+  }
+
+  return offers;
 }
 
 const updateOffers = (offers) => {
   clearMarkers();
   const newMarkers = filterOffers(offers);
   renderMarkers(newMarkers);
+
 }
 
 const setFilterListener = (offers) => {
 
   filters.addEventListener('change', debounce(() => {
     updateOffers(offers);
-  }, 500));
+  }));
 }
 
 export { setFilterListener };

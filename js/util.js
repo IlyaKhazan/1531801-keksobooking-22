@@ -47,12 +47,12 @@ const isEscEvent = (evt) => {
   return evt.key === 'Escape' || evt.key === 'Esc';
 };
 
-const debounce = (callback) => {
+const debounce = (callback, ms = 500) => {
   let timeout;
 
-  return (argument) => {
+  return (...args) => {
     clearTimeout(timeout);
-    timeout = setTimeout(() => callback(argument), 500);
+    timeout = setTimeout(() => callback(...args), ms);
   };
 };
 
