@@ -1,5 +1,6 @@
 import './offer.js';
 import './form.js';
+import './upload.js';
 import { renderMarkers } from './map.js';
 import { setFormSubmit } from './form.js';
 import { getData } from './api.js';

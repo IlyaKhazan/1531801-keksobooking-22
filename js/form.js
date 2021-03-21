@@ -1,6 +1,7 @@
 import { showErrorSendPopup, showSuccessPopup } from './popup.js';
 import { setLatLngDefault } from './main.js';
 import { sendData } from './api.js';
+import { avatarPreview, photosPreview } from './upload.js';
 
 const form = document.querySelector('.ad-form');
 const filters = document.querySelector('.map__filters');
@@ -85,6 +86,7 @@ const formReset = () => {
   filters.reset();
   capacity.innerHTML = roomCapacity[roomNumber.value];
   setLatLngDefault();
+  photosPreview.src = avatarPreview.src = 'img/muffin-grey.svg';
 }
 
 resetButton.addEventListener('click', (evt) => {
