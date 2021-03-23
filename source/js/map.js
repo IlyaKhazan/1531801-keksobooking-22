@@ -1,4 +1,4 @@
-/* global L:readonly */
+import L from 'leaflet';
 import { createOffer } from './offer.js';
 import { activatePage, deactivatePage } from './form.js';
 
