@@ -47,6 +47,14 @@ const createOffer = ({ offer, author }) => {
   renderPhotosData(offer.photos, popupElement);
   renderFeaturesData(offer.features, popupElement);
 
+  const offerFields = Array.from(popupElement.children);
+
+  offerFields.forEach((offerField) => {
+    if (!offerField.innerHTML && !offerField.classList.contains('popup__avatar')) {
+      offerField.remove()
+    }
+  })
+
   return popupElement;
 };
 
