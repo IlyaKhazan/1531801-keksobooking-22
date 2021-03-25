@@ -53,7 +53,7 @@ const renderMarkers = (data) => {
     const lng = offer.location.lng;
 
     const pinIcon = L.icon({
-      iconUrl: '../img/pin.svg',
+      iconUrl: 'img/pin.svg',
       iconSize: [`${PinSize.WIDTH}`, `${PinSize.HEIGHT}`],
       iconAnchor: [`${PinSize.WIDTH / 2}`, `${PinSize.HEIGHT}`],
     });
@@ -83,7 +83,7 @@ L.tileLayer(
 ).addTo(map);
 
 const mainPinIcon = L.icon({
-  iconUrl: '../img/main-pin.svg',
+  iconUrl: 'img/main-pin.svg',
   iconSize: [`${PinSize.WIDTH}`, `${PinSize.HEIGHT}`],
   iconAnchor: [`${PinSize.WIDTH / 2}`, `${PinSize.HEIGHT}`],
 });
